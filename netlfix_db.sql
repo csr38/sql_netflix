@@ -54,15 +54,16 @@ CREATE TABLE movies_actors(
 DROP TABLE IF EXISTS movies_users;
 
 CREATE TABLE movies_users(
-    user_id INT NOT NULL,
     movie_id INT NOT NULL,
+    user_id INT NOT NULL,
 
     time_movie TIME NOT NULL DEFAULT 0,
 
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (movie_id) REFERENCES movies(movie_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    
 
-    PRIMARY KEY(user_id, movie_id)
+    PRIMARY KEY(movie_id, user_id)
 );
 
 DROP TRIGGER IF EXISTS increase_movie_count;
@@ -82,11 +83,6 @@ CREATE TRIGGER increase_movie_count
  Mostrar ruta segura de sql
  SHOW VARIABLES LIKE 'secure_file_priv';
 */
--- Cambiar ruta segura
- secure-file-priv=''
-
-
-
 
 SET FOREIGN_KEY_CHECKS = 0;
 LOAD DATA
@@ -129,4 +125,15 @@ LINES TERMINATED BY '\r\n'
 (movie_id, actor_id);
 SET FOREIGN_KEY_CHECKS = 1; 
 
-SELECT * FROM movies_actors;
+-- SELECT * FROM movies_actors;
+
+
+SET FOREIGN_KEY_CHECKS = 0;
+LOAD DATA
+INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/movies_users.csv'
+INTO TABLE movies_users
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+(movie_id, user_id, time_movie);
+SET FOREIGN_KEY_CHECKS = 1; 
