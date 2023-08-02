@@ -68,15 +68,15 @@ CREATE TABLE movies_users(
 
 DROP TRIGGER IF EXISTS increase_movie_count;
 
-
-
 CREATE TRIGGER increase_movie_count
     AFTER INSERT ON movies_users
     FOR EACH ROW
     BEGIN 
         UPDATE users SET movie_count = movie_count + 1
-        WHERE user_id = NEW.movie_id;
-    END ;
+        WHERE user_id = NEW.user_id;
+    END;
+DELIMITER ;
+
 
 
 -- SELECT * from users;
